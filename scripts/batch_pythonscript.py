@@ -351,7 +351,7 @@ if __name__ == '__main__':
                 # then we treat the measure values
             
                 # each FB separately
-                for FB in ['card','LF','VLF'] :
+                for FB in ['LF','VLF'] :
 
                     #get the vessel ID present for all freq
                     vesselid_Rv = sleepdata['Rv'][stage].keys()
@@ -829,7 +829,7 @@ if __name__ == '__main__':
                 # then we treat the measure values
             
                 # each FB separately
-                for FB in ['card','LF','VLF'] :
+                for FB in ['LF','VLF'] :
 
                     #get the vessel ID present for all freq
                     vesselid_Rv = sleepdata['Rv'][stage].keys()
@@ -1372,7 +1372,7 @@ if __name__ == '__main__':
                 # then we treat the measure values
             
                 # each FB separately
-                for FB in ['card','LF','VLF'] :
+                for FB in ['LF','VLF'] :
 
                     #get the vessel ID present for all freq
                     vesselid_Rv = sleepdata['Rv'][stage].keys()
