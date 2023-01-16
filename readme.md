@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/510674217.svg)](https://zenodo.org/badge/latestdoi/510674217)
+
+
 # Linescan-analysis
 
 Code for the post-processing of line-scan measurements of vessels and astrocyte endfoot diameter oscillations and simulations presented in:
