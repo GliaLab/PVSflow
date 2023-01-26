@@ -81,8 +81,8 @@ if __name__ == '__main__':
     ##########################################################
 
 
-    #outputdir='${USERWORK}'
-    outputdir='/cluster/projects/nn9279k/Alexandra/'
+    outputdir='${USERWORK}'
+    #outputdir='/cluster/projects/nn9279k/Alexandra/'
 
     # We would like to cover those parameters range
     # Length of the PVS
@@ -1678,7 +1678,7 @@ if __name__ == '__main__':
     #### Transport analysis 
     
     # serie name
-    seriename='transportSMC00WT10'
+    seriename='transpor00WT10'
     
     # create a folder for the slurm files and the batch file
 
