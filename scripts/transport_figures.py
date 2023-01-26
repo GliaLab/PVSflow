@@ -13,6 +13,7 @@ import os
 import shutil
 from scipy.signal import savgol_filter
 from os import path
+import csv
 
 from scipy import special
 
@@ -26,7 +27,11 @@ def find_id (row):
 # define the folder with the simulations results for the transport analysis
 rep='../data/simulations/'
 analysis='-d7e-08-l6e-02'
-rep=rep+'intakeRandomWT10t200area'+analysis+'/'
+name='transportSMC50WT10'
+#name='intakeRandomWT10t200area'
+rep=rep+name+analysis+'/'
+
+
 
 #associated diffusion coefficient
 #D=1.680000e-07
@@ -42,7 +47,7 @@ bandnames=[ 'Card','LFVLFCard','LFVLF']
 namefigure='transport_'+'_d%.1e'%D
 
 # output folder
-outputfolder='../output/figures/'
+outputfolder='../output/figures/'+name+analysis+'_time-res'+'/'
 
 
 #style
@@ -160,17 +165,26 @@ for bandname in bandnames :
             
             
         # interpolate on a time scale
-        spantime=np.linspace(0,200,50)
+        spantime=np.linspace(0,200,400)
         #convert to array
         xtharray=np.zeros((len(list_xth),len(spantime)))
-        
+
+
+
         for i,xth in enumerate(list_xth) :
-            smoothedxth=savgol_filter(list_xth[i],5,3) 
+            # create a csv file
+            # open the file in the write mode
+            f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(i)+'.csv', 'w')
+            writer = csv.writer(f)
+            smoothedxth=savgol_filter(list_xth[i],3,2) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
             plt.plot(spantime*factortime,xtharray[i,:]*1e4,c=my_pal[stage],alpha=0.1)
             smoothedxth=savgol_filter(list_xth[i],101,3) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
-            
+            writer.writerow(spantime*factortime)
+            writer.writerow(xtharray[i,:]*1e4)
+            f.close()
+
             
         xthmean=np.median(xtharray,axis=0)
         xthq1=np.percentile(xtharray,10,axis=0)
@@ -180,7 +194,11 @@ for bandname in bandnames :
         
         plt.fill_between(spantime*factortime,xthq1*1e4,xthq3*1e4,alpha=0.3,color=my_pal[stage])
         plt.plot(spantime*factortime,xthmean*1e4,label='dispersion '+bandname+'_'+stage,color=my_pal[stage],linewidth=3)
-        
+        f = open(outputfolder+namefigure+'-'+bandname+'-data_'+'average'+'.csv', 'w')
+        writer = csv.writer(f)
+        writer.writerow(spantime*factortime)
+        writer.writerow(xthmean*1e4)
+        f.close()
     
     spantimeth=np.linspace(0,200,1000)    
     diffusion=special.erfcinv(0.1)*2*np.sqrt(D*spantimeth)
@@ -195,7 +213,7 @@ for bandname in bandnames :
     plt.plot(spantime*factortime,spantime*5,'k:',label='net flow 5 um /s')
     plt.plot(spantime*factortime,spantime*10,'k--',label='net flow 10 um /s')
     
-    plt.ylim([0,130])
+    plt.ylim([0,200])
     plt.xlim([0,120])
     
     plt.xlabel('time (s)')
