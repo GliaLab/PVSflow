@@ -113,7 +113,7 @@ rep=rep+'dispersionSMC50WT10'+analysis+'/'
 # name of the output file
 #outputname='RandomVeinsWT10.csv'
 #outputname='RandomWT10.csv'
-outputname='SMC50WT10new.csv'
+outputname='SMC50WT10h0d7e-08.csv'
 
 # set a condition on time analysis (to avoid analysis when tracer reaches the boundary conditions)
 conditiontime=False
@@ -284,7 +284,7 @@ for stage in stages :
             
             Pe=h*umax/D
             Re=rho*umax*h/mu
-            Wo=h*sqrt(w/mu)
+            Wo=h*sqrt(w/nu)
             Fo=D*t[-1]/xi**2
             
             outputfile.write('\nUmax : %.3f um/s'%(umax*1e4))
