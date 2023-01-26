@@ -1,8 +1,13 @@
+[![DOI](https://zenodo.org/badge/510674217.svg)](https://zenodo.org/badge/latestdoi/510674217)
+
+
 # Linescan-analysis
 
-Script for the post-processing of line-scan measurements of vessels and astrocyte endfoot diameter oscillations.
+Code for the post-processing of line-scan measurements of vessels and astrocyte endfoot diameter oscillations and simulations presented in:
+* <i>Sleep cycle-dependent vascular dynamics and the predicted effects on perivascular cerebrospinal fluid flow and solute transport.</i> Laura Bojarskaite, Alexandra Vallet, Daniel M. Bjørnstad, Kristin M. Gullestad Binder, Céline Cunen, Kjell Heuser, Miroslav Kuchta, Kent-Andre Mardal, Rune Enger
 
 ## Setting up the computational environment
+
 Instalation of our analysis pipeline is based on [docker](https://www.docker.com/). The Docker
 image to be built locally by the user is defined in the [Dockerfile](https://github.com/AlexandraVallet/PVSflow/blob/master/Dockerfile). The resulting environment contains dependencies of our pipeline such as
 the standard scientific Python stack (e.g. numpy, pandas) and FEniCS, gmsh. We refer to
@@ -20,33 +25,23 @@ be launched as described below.
 ## Usage
 
 ### Get the data
+Download and un-zip: https://zenodo.org/record/7540400/files/PVS_data_analyses_and_simulations.zip 
+
 
 #### raw data (necessary for the peak to peak analysis)
-Download the raw data archive : 160322_4traces.tar.gz 
-
-Untar it in the data/raw folder
+Move and untar 160322_4traces.tar.gz into data/raw folder
 
 #### statistics data (necessary for the simulation preprocessing)
 
-Download the statistics data archive : statistics_penetrating_arterioles_WT10.tar.gz 
-
-Untar it in the data/statistics folder
+Move and untar statistics_penetrating_arterioles_WT10.tar.gz into data/statistics folder.  
 
 #### simulation results data (necessary for the dispersion analysis)
 
-Download the simulation results data archive : 
-- dispersionRandomWT10t40area-d2e-07-l6e-02.tar.gz
-- dispersionRandomWT10t40area-d7e-08-l6e-02.tar.gz
-- intakeRandomWT10t200area-d2e-07-l6e-02.tar.gz
-- intakeRandomWT10t200area-d7e-08-l6e-02.tar.gz
-
-Untar them in the data/simulations folder
-
+Move and unzip the simulations.zip into data/simulations folder: 
 
 ### Setup the python path
 
 execute the command line : source setup.rc
-
 
 
 ### Peak to peak analysis
@@ -73,13 +68,15 @@ The script for conversion is /scripts/convertcsv.py
 
 ### Statistical analysis 
 
-A R script perfoms the statistical analysis. The output files consists in random analyses , were a model is fitted to each vessel. and a fixed effect analyses where a model is fitted to the whole population.
+Statistical code in R with input and output files can be found here: https://zenodo.org/record/7540400/files/Statistics_and_code.zip 
 
-The results from this script is the satistics data, that can be douwnloaded and should be saved in the data/satistics folder.
+The output files includes group/state estimates (fixed effexts) and estimates for every vessel analyzed (random effects). 
+
+The results from this script are the statistics data, that can be downloaded and should be saved in the data/statistics folder.
 
 ### Preparation of simulations batch
 
-From the statistical analysis we generate slurm file to lauchn corresponding simulation of CSF flow on the super computer. These slurm files are launched through a single batch file.
+From the statistical analysis we generate a slurm file to lauchn corresponding simulation of CSF flow on the super computer. These slurm files are launched through a single batch file.
 
 The script to generate the simulation batch files is : 
 /supercomputer/batch_pythonscript.py
@@ -89,7 +86,7 @@ The slurmfiles will be stored in the folder output/supercomputer
 
 ### Simulations
 
-The script to lauchn the simulation is scripts/PVS_simulation.py.
+The script to lauch the simulation: scripts/PVS_simulation.py.
 
 It must be called with several arguments that describe the PVS geometry and arteriole pulsations. The command lines can be viewed at the end of the slurm files generated in the previous stage.
 
@@ -124,4 +121,3 @@ The script to generate figures from the dispersion analysis results is :
 and the transport figures are generated with the script : 
 
 /scripts/transport_figures.py
-
