@@ -26,7 +26,7 @@ def find_id (row):
 
 # define the folder with the simulations results for the transport analysis
 rep='../data/simulations/'
-analysis='-d7e-08-l6e-02'
+analysis='-d2e-07-l6e-02'
 name='transportSMC50WT10'
 #name='intakeRandomWT10t200area'
 rep=rep+name+analysis+'/'
@@ -41,7 +41,7 @@ D=6.800000e-08 #cm2/s
 stages=['baseline','stageNREM']#'stageIS',,'stageREM'
 
 #chose the frequency bands to plot
-bandnames=[ 'Card','LFVLFCard','LFVLF']
+bandnames=[ 'LFVLFCard']
 
 #name of the figure
 namefigure='transport_'+'_d%.1e'%D
@@ -157,12 +157,22 @@ for bandname in bandnames :
                 ith=np.where(concentration[j+1,:]<=th)[0][0]
                 
                 xth.append(x[ith])
+            
+            f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(vessel)+'-'+stage+'.csv', 'w')
+            writer = csv.writer(f)
+            smoothedxth=savgol_filter(xth,101,3) 
+            xtharray=np.interp(spantime,time,smoothedxth)
+            writer.writerow(spantime*factortime)
+            writer.writerow(xtharray*1e4)
+            f.close()
                 
-                
+           
+            
             #plt.plot(time,xth,'k',alpha=0.3)
             list_xth.append(xth)
             list_time.append(time)
             
+           
             
         # interpolate on a time scale
         spantime=np.linspace(0,200,400)
@@ -174,16 +184,16 @@ for bandname in bandnames :
         for i,xth in enumerate(list_xth) :
             # create a csv file
             # open the file in the write mode
-            f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(i)+'.csv', 'w')
-            writer = csv.writer(f)
+            #f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(i)+'.csv', 'w')
+            #writer = csv.writer(f)
             smoothedxth=savgol_filter(list_xth[i],3,2) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
             plt.plot(spantime*factortime,xtharray[i,:]*1e4,c=my_pal[stage],alpha=0.1)
             smoothedxth=savgol_filter(list_xth[i],101,3) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
-            writer.writerow(spantime*factortime)
-            writer.writerow(xtharray[i,:]*1e4)
-            f.close()
+            #writer.writerow(spantime*factortime)
+            #writer.writerow(xtharray[i,:]*1e4)
+            #f.close()
 
             
         xthmean=np.median(xtharray,axis=0)
