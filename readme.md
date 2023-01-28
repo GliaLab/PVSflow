@@ -27,7 +27,7 @@ be launched as described below.
 ## Usage
 
 ### Get the data
-Download and un-zip: [here](https://zenodo.org/record/7540400/files/PVS_data_analyses_and_simulations.zip) 
+Download and un-zip: [here](https://zenodo.org/record/7579700/files/PCS_data_analyses_and_simulations.zip) 
 
 
 #### raw data (necessary for the peak to peak analysis)
@@ -119,7 +119,7 @@ The script for the Random effect dispersion analysis is :
 
 The script to generate figures from the dispersion analysis results is :
 
-`/scripts/dispersion_figure.py` (Random effect)
+`/scripts/simulations_plot.py` 
 
 and the transport figures are generated with the script : 
 

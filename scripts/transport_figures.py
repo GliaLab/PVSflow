@@ -26,8 +26,8 @@ def find_id (row):
 
 # define the folder with the simulations results for the transport analysis
 rep='../data/simulations/'
-analysis='-d2e-07-l6e-02'
-name='transportSMC50WT10'
+analysis='-d7e-08-l6e-02'
+name='transportSMC00WT10'
 #name='intakeRandomWT10t200area'
 rep=rep+name+analysis+'/'
 
@@ -158,12 +158,13 @@ for bandname in bandnames :
                 
                 xth.append(x[ith])
             
+            spantime=np.linspace(0,200,400)
             f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(vessel)+'-'+stage+'.csv', 'w')
             writer = csv.writer(f)
-            smoothedxth=savgol_filter(xth,101,3) 
-            xtharray=np.interp(spantime,time,smoothedxth)
+            smoothedxth=savgol_filter(xth,3,2) 
+            spanxth=np.interp(spantime,time,smoothedxth)
             writer.writerow(spantime*factortime)
-            writer.writerow(xtharray*1e4)
+            writer.writerow(spanxth*1e4)
             f.close()
                 
            
@@ -184,14 +185,14 @@ for bandname in bandnames :
         for i,xth in enumerate(list_xth) :
             # create a csv file
             # open the file in the write mode
-            #f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(i)+'.csv', 'w')
-            #writer = csv.writer(f)
+           # f = open(outputfolder+namefigure+'-'+bandname+'-data_'+str(vessel)+'-'+stage+'.csv', 'w')
+           # writer = csv.writer(f)
             smoothedxth=savgol_filter(list_xth[i],3,2) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
             plt.plot(spantime*factortime,xtharray[i,:]*1e4,c=my_pal[stage],alpha=0.1)
             smoothedxth=savgol_filter(list_xth[i],101,3) 
             xtharray[i,:]=np.interp(spantime,list_time[i],smoothedxth)
-            #writer.writerow(spantime*factortime)
+           # writer.writerow(spantime*factortime)
             #writer.writerow(xtharray[i,:]*1e4)
             #f.close()
 
